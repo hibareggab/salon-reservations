@@ -2,6 +2,17 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
+<script>
+  // Si l'utilisateur n'est pas connecté (sessionStorage), redirige vers login.html
+  (function () {
+    // autoriser l'accès direct si on est déjà sur login.html
+    const isLoginPage = location.pathname.endsWith('login.html') || location.pathname === '/';
+    if (!sessionStorage.getItem('salon_logged_in') && !isLoginPage) {
+      location.replace('login.html');
+    }
+  })();
+</script>
+
 <title>🌸 صالون زهرة أيلول 🌸</title>
 <link rel="stylesheet" href="styles.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
@@ -10,6 +21,19 @@
 <body>
 
 <h1>صالون زهرة أيلول</h1>
+<button id="logoutBtn" style="position:fixed;top:10px;left:10px;">تسجيل الخروج</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('logoutBtn');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        sessionStorage.removeItem('salon_logged_in');
+        location.replace('login.html');
+      });
+    }
+  });
+</script>
 
 <button onclick="toggleForm()">سجّل حجز</button>
 <button onclick="toggleReservations()">الحجوزات</button>
